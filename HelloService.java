@@ -26,4 +26,8 @@ public interface HelloService extends Remote {
 // prints the value of the parameter on the user's display
     public String setConfig(String parameter, String value) throws RemoteException;
 // sets the parameter to value
+    public String Login(String username, String password) throws RemoteException;
+// requests a new session  
+    public boolean RequestService(String token) throws RemoteException;
+// requests a service
 }

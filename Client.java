@@ -2,7 +2,6 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.net.MalformedURLException;
 import java.rmi.RemoteException;
-import java.rmi.Remote;
 
 
 
@@ -22,5 +21,8 @@ public class Client
         System.out.println(" ---" + service.readConfig("molt"));
         System.out.println(" ---" + service.setConfig("molt", "important"));
 
+        String sessionToken = service.Login("testUser", "pass");
+        
+        
     }
 }
