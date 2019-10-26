@@ -78,13 +78,13 @@ public class HelloServant extends UnicastRemoteObject implements HelloService {
 	   	 }
     }
     public boolean IsValidUser(String username, String password) throws RuntimeException{    	 
-    	 if (username == "testUser" && password == "pass")
+    	 if (username.equals("testUser") && password.equals("pass"))
     		 return true;
     	 else
     		 return false; 	 
      }
      public boolean IsValidUser(String username) throws RuntimeException{    	 
-    	 if (username == "testUser")
+    	 if (username.equals("testUser"))
     		 return true;
     	 else
     		 return false;

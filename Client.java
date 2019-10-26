@@ -22,7 +22,7 @@ public class Client
         System.out.println(" ---" + service.setConfig("molt", "important"));
 
         String sessionToken = service.Login("testUser", "pass");
-        
+        System.out.println(sessionToken);
         
     }
 }
