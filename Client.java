@@ -19,9 +19,11 @@ public class Client
         System.out.println(" ---" + service.readConfig("molt"));
         System.out.println(" ---" + service.setConfig("molt", "important"));
 
+        
         PasswordStorage passManager = new PasswordStorage();
         String userName = "admin";
         String password = "password";
+        Database.connectDb();
         passManager.signUp(userName, password);
  
         Scanner scanner = new Scanner(System.in);
