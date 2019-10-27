@@ -1,6 +1,5 @@
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Base64;
 
 
 public class HelloServant extends UnicastRemoteObject implements HelloService {
@@ -58,49 +57,7 @@ public class HelloServant extends UnicastRemoteObject implements HelloService {
     // sets the parameter to value
     return "setConfig: " + parameter + " to " + value;
     }
-    @Override
-	public String Login(String username, String password) throws RemoteException{
-	    if (IsValidUser(username,password) == true) {
-	    	return IssueToken(username);
-	    } 	
-    	else {
-    		echo("Invalid username or password");
-    		return null;
-    	}
-	} 
-    @Override
-    public boolean RequestService(String token) throws RemoteException{
-	   	 if (IsValidUser(DecodeToken(token))) {
-	   		 return true;
-	   	 }
-	   	 else {
-	   		 return false;
-	   	 }
-    }
-    public boolean IsValidUser(String username, String password) throws RuntimeException{    	 
-    	 if (username.equals("testUser") && password.equals("pass"))
-    		 return true;
-    	 else
-    		 return false; 	 
-     }
-     public boolean IsValidUser(String username) throws RuntimeException{    	 
-    	 if (username.equals("testUser"))
-    		 return true;
-    	 else
-    		 return false;
-     } 
-     public String IssueToken(String username) throws RuntimeException{
-	    try {   	  
-	    	 return Base64.getEncoder().encodeToString(username.getBytes());
-	    } 
-	    catch (Exception ex) {
-	    	 ex.printStackTrace();
-	    } 
-     return null;
-     }         
-     public String DecodeToken(String token) throws RuntimeException{
-    	 byte[] decodedBytes = Base64.getDecoder().decode(token);
-    	 return new String(decodedBytes);
-     }  
+    
+
 }
 

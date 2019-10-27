@@ -1,13 +1,11 @@
 import java.rmi.Naming;
-import java.rmi.NotBoundException;
-import java.net.MalformedURLException;
-import java.rmi.RemoteException;
+import java.util.Scanner;
 
 
 
 public class Client
 {
-    public static void main( String[] args ) throws NotBoundException, MalformedURLException, RemoteException
+    public static void main( String[] args ) throws Exception
     {
         HelloService service = (HelloService) Naming.lookup("rmi://localhost:5099/hello");
         System.out.println(" ---" + service.echo("hey server"));
@@ -21,8 +19,24 @@ public class Client
         System.out.println(" ---" + service.readConfig("molt"));
         System.out.println(" ---" + service.setConfig("molt", "important"));
 
-        String sessionToken = service.Login("testUser", "pass");
-        System.out.println(sessionToken);
-        
+        PasswordStorage passManager = new PasswordStorage();
+        String userName = "admin";
+        String password = "password";
+        passManager.signUp(userName, password);
+ 
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Please enter username:");
+        String inputUser = scanner.nextLine();
+ 
+        System.out.println("Please enter password:");
+        String inputPass = scanner.nextLine();
+ 
+        boolean status = passManager.authenticateUser(inputUser, inputPass);
+        if (status) {
+            System.out.println("Logged in!");
+        } else {
+            System.out.println("Sorry, wrong username/password");
+        }
+        scanner.close();
     }
 }
