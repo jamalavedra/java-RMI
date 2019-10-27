@@ -15,9 +15,6 @@ public class Database {
 	      Class.forName("com.mysql.jdbc.Driver");
 	      Connection con = DriverManager.getConnection(connection,user,pass);
 	      
-	      PreparedStatement statement = con.prepareStatement("insert into users (Username, Passord) values (admin,pass)");
-	      statement.executeUpdate();
-	      con.commit();
 	    }
 	    catch (Exception e)
 	    {
