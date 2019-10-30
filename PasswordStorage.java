@@ -1,5 +1,11 @@
+import java.rmi.RemoteException;
 import java.security.SecureRandom;
 import java.security.spec.KeySpec;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +15,9 @@ import javax.crypto.spec.PBEKeySpec;
 
 public class PasswordStorage {
 	private Map<String, UserInfo> userDatabase = new HashMap<String,UserInfo>();
+	Database db;
+	Statement stm;
+    ResultSet res;
 	public boolean authenticateUser(String inputUser, String inputPass) throws Exception {
         UserInfo user = userDatabase.get(inputUser);
         if (user == null) {
@@ -56,7 +65,11 @@ public class PasswordStorage {
         return Base64.getEncoder().encodeToString(salt);
     }
     
-    private void saveUser(UserInfo user) {
-        userDatabase.put(user.userName, user);
+    private void saveUser(UserInfo user) throws SQLException {
+    	System.out.println(user);
+    	System.out.println(user.userName);
+    	System.out.println(user.userEncryptedPassword);
+     	stm.executeQuery("INSERT INTO Users " + "VALUES (user.userName,user.userEncryptedPassword)");
     }
+    
 }
