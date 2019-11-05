@@ -47,6 +47,7 @@ public class Database {
                 String saltDB = res.getString("Salt");
                 System.out.println(usernameDB + " " + passwordDB + " " + saltDB);
                 
+                
                 if(!usernameDB.equals(username)){
 
                     return false;

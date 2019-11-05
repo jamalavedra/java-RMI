@@ -24,14 +24,16 @@ public class Client
         System.out.println(" ---" + service.readConfig("molt"));
         System.out.println(" ---" + service.setConfig("molt", "important"));
 
- 
+        CryptoHelper crypto = new CryptoHelper();
         PasswordStorage passManager = new PasswordStorage();
         String userName = "admin";
         String password = "password";
 
-        passManager.signUp(userName, password);
+        String encriptedUser = crypto.encrypt(userName);
+        String encriptedPass = crypto.encrypt(password);
+        passManager.signUp(encriptedUser, encriptedPass);
         checkDatabase(userName,password); 
-
+        
     }
     
 public static boolean checkDatabase(String user,String pwd)throws RemoteException, SQLException{

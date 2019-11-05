@@ -17,6 +17,7 @@ public class PasswordStorage {
 	Database db;
 	Statement stm;
     ResultSet res;
+   
     
     private Connection connect() {
     	final String userDB = "root";
@@ -33,18 +34,31 @@ public class PasswordStorage {
  
     //Method used for Login the user
     public void signUp(String userName, String password) throws Exception {
+    	try {
+    	CryptoHelper crypto = new CryptoHelper();
+        String decryptedUser = crypto.decrypt(userName);
+        System.out.println("mandril");
+        String decryptedPass = crypto.decrypt(password);
+        
         String salt = getNewSalt();
-        String encryptedPassword = getEncryptedPassword(password, salt);
+        String encryptedPassword = getEncryptedPassword(decryptedPass, salt);
         UserInfo user = new UserInfo();
+        
         user.userEncryptedPassword = encryptedPassword;
-        user.userName = userName;
+        user.userName = decryptedUser;
         user.userSalt = salt;
+
         saveUser(user);
+    	}catch(Exception e){
+    		System.out.println(e.getMessage());
+    	}
+        
     }
  
     // Get a encrypted password using PBKDF2 hash al`gorithm
     public String getEncryptedPassword(String password, String salt) throws Exception {
-        String algorithm = "PBKDF2WithHmacSHA1";
+
+    	String algorithm = "PBKDF2WithHmacSHA1";
         int derivedKeyLength = 160; // for SHA1
         int iterations = 20000;
  
