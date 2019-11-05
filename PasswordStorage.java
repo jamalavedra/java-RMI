@@ -1,4 +1,3 @@
-import java.rmi.RemoteException;
 import java.security.SecureRandom;
 import java.security.spec.KeySpec;
 import java.sql.Connection;
@@ -7,32 +6,32 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
-
+import java.sql.PreparedStatement;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
+
+
 public class PasswordStorage {
-	private Map<String, UserInfo> userDatabase = new HashMap<String,UserInfo>();
+
 	Database db;
 	Statement stm;
     ResultSet res;
-	public boolean authenticateUser(String inputUser, String inputPass) throws Exception {
-        UserInfo user = userDatabase.get(inputUser);
-        if (user == null) {
-            return false;
-        } else {
-            String salt = user.userSalt;
-            String calculatedHash = getEncryptedPassword(inputPass, salt);
-            if (calculatedHash.equals(user.userEncryptedPassword)) {
-                return true;
-            } else {
-                return false;
-            }
+    
+    private Connection connect() {
+    	final String userDB = "root";
+    	final String passDB = "hello";
+    	final String conn = "jdbc:mysql://192.168.99.100:3306/DB?useSSL=false";
+        Connection c = null;
+        try {
+        	c = DriverManager.getConnection(conn, userDB, passDB);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
+        return c;
     }
  
+    //Method used for Login the user
     public void signUp(String userName, String password) throws Exception {
         String salt = getNewSalt();
         String encryptedPassword = getEncryptedPassword(password, salt);
@@ -43,7 +42,7 @@ public class PasswordStorage {
         saveUser(user);
     }
  
-    // Get a encrypted password using PBKDF2 hash algorithm
+    // Get a encrypted password using PBKDF2 hash al`gorithm
     public String getEncryptedPassword(String password, String salt) throws Exception {
         String algorithm = "PBKDF2WithHmacSHA1";
         int derivedKeyLength = 160; // for SHA1
@@ -65,11 +64,18 @@ public class PasswordStorage {
         return Base64.getEncoder().encodeToString(salt);
     }
     
+    //save user in Database
     private void saveUser(UserInfo user) throws SQLException {
-    	System.out.println(user);
-    	System.out.println(user.userName);
-    	System.out.println(user.userEncryptedPassword);
-     	stm.executeQuery("INSERT INTO Users " + "VALUES (user.userName,user.userEncryptedPassword)");
+    	String sql = "INSERT INTO Users(Username, Password,Salt) VALUES(?,?,?)";
+    	
+        try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, user.userName);
+            pstmt.setString(2, user.userEncryptedPassword);
+            pstmt.setString(3, user.userSalt);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
     
 }

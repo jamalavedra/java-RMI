@@ -1,6 +1,3 @@
-import java.rmi.RemoteException;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -10,7 +7,7 @@ public class Database {
 
     Statement stm;
     ResultSet res;
-    
+    PasswordStorage manageEncription = new PasswordStorage();
     // Constructor
     public Database(Statement stm, ResultSet res){
         this.stm = stm;
@@ -26,8 +23,9 @@ public class Database {
                
                 String usernameDB = res.getString("Username");
                 String passwordDB = res.getString("Password");
+                String saltDB = res.getString("Salt");
                 
-                System.out.println(usernameDB + " " + passwordDB + " ");
+                System.out.println(usernameDB + " " + passwordDB + " " + saltDB);
             }
             
         }
@@ -38,23 +36,33 @@ public class Database {
         
     }
        
-    public boolean verifyUser( String username, String password) throws SQLException{
+    public boolean authenticateUser( String username, String password) throws SQLException{
         
         try{
-            res = stm.executeQuery("SELECT * FROM Users WHERE username = '" + username + "' AND password ='" + password + "'");
-            
-            while(res.next()){
-               
+            res = stm.executeQuery("SELECT * FROM Users");
+            System.out.println("Am reusit !");
+            if(res.next()){          
                 String usernameDB = res.getString("Username");
                 String passwordDB = res.getString("Password");
+                String saltDB = res.getString("Salt");
+                System.out.println(usernameDB + " " + passwordDB + " " + saltDB);
+                
+                if(!usernameDB.equals(username)){
 
-                
-                if(passwordDB.equals(password)){
-                    
-                    return true;
+                    return false;
+                }else {
+                	System.out.println("Made it!");
+                	String salt = saltDB;
+                    String calculatedHash = manageEncription.getEncryptedPassword(password, salt);
+                    if (calculatedHash.equals(passwordDB)) {
+                    	System.out.println("User authenticated");
+                    	return true;                   
+                    } else {
+                        return false;
+                    }
                 }
-                
-            }  
+            }       
+              
         }
         catch(Exception e){
         	System.out.println(e);

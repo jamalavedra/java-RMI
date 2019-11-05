@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Scanner;
 
 
 
@@ -25,21 +24,14 @@ public class Client
         System.out.println(" ---" + service.readConfig("molt"));
         System.out.println(" ---" + service.setConfig("molt", "important"));
 
-        
+ 
         PasswordStorage passManager = new PasswordStorage();
         String userName = "admin";
         String password = "password";
-        checkDatabase(userName,password); 
-        passManager.signUp(userName, password);
- 
 
-       /* boolean status = passManager.authenticateUser(userName, password);
-        if (status) {
-            System.out.println("Logged in!");
-        } else {
-            System.out.println("Sorry, wrong username/password");
-        }*/
-        
+        passManager.signUp(userName, password);
+        checkDatabase(userName,password); 
+
     }
     
 public static boolean checkDatabase(String user,String pwd)throws RemoteException, SQLException{
@@ -51,24 +43,24 @@ public static boolean checkDatabase(String user,String pwd)throws RemoteExceptio
         Statement s = null;
         ResultSet rs = null;
         
-        Database db;
-        boolean isValidUser = false;
+        
+        boolean userAuthenticated = false;
         
         try{
             Class.forName("com.mysql.jdbc.Driver");
             c = DriverManager.getConnection(connection, userDB, passDB);
             s = c.createStatement();
             
-            db = new Database(s, rs);
+            Database db = new Database(s, rs);
             
 
             // Checks if the given username and password is correct.
             // That means the user exists in the Database and gave the correct credentials.
 
             System.out.println("I am connected to the databse !!!");
-            isValidUser = db.verifyUser(user, pwd);
+            userAuthenticated = db.authenticateUser(user, pwd);
             
-            if(isValidUser){
+            if(userAuthenticated){
                 System.out.println("Welcome " + user);
             }
             else{
@@ -87,6 +79,6 @@ public static boolean checkDatabase(String user,String pwd)throws RemoteExceptio
         
        
      
-     return isValidUser; 
+     return userAuthenticated; 
  }
 }
