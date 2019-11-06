@@ -8,3 +8,4 @@ To run it:
 
 ## To populate a MySQL dB:
 `sudo mysql -u root -p data_security < data.sql`
+Beware that the dB expects that admin user is `dataUser` and password: `password`
