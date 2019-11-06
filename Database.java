@@ -14,64 +14,53 @@ public class Database {
         this.res = res;
     }
     public void printDatabase() throws SQLException{
-        
-        
+
+
         try{
         	res = stm.executeQuery("SELECT * FROM data");
-            
+
             while(res.next()){
-               
+
                 String usernameDB = res.getString("Username");
                 String passwordDB = res.getString("Password");
                 String saltDB = res.getString("Salt");
-                
+
                 System.out.println(usernameDB + " " + passwordDB + " " + saltDB);
             }
-            
+
         }
         catch(Exception e){
-            
+
         }
-            
-        
+
+
     }
-       
+
     public boolean authenticateUser( String username, String password) throws SQLException{
-        
+
         try{
-            res = stm.executeQuery("SELECT * FROM Users");
-            System.out.println("Am reusit !");
-            if(res.next()){          
+            res = stm.executeQuery("SELECT * FROM data WHERE username = '" + username + "'");
+            while(res.next()){
                 String usernameDB = res.getString("Username");
                 String passwordDB = res.getString("Password");
                 String saltDB = res.getString("Salt");
-                System.out.println(usernameDB + " " + passwordDB + " " + saltDB);
-                
-                if(!usernameDB.equals(username)){
-
-                    return false;
-                }else {
-                	System.out.println("Made it!");
-                	String salt = saltDB;
-                    String calculatedHash = manageEncription.getEncryptedPassword(password, salt);
-                    if (calculatedHash.equals(passwordDB)) {
-                    	System.out.println("User authenticated");
-                    	return true;                   
-                    } else {
-                        return false;
-                    }
+                // System.out.println(usernameDB + " " + passwordDB + " " + saltDB);
+                String calculatedHash = manageEncription.getEncryptedPassword(password, saltDB);
+                if (calculatedHash.equals(passwordDB)) {
+                	System.out.println("User authenticated");
+                	return true;
                 }
-            }       
-              
+            }
+
         }
         catch(Exception e){
         	System.out.println(e);
-            
+
         }
-        
-        
+
+
         return false;
-        
+
     }
 
 }
