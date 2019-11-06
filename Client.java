@@ -5,11 +5,13 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.crypto.spec.SecretKeySpec;
 
 
 
 public class Client
 {
+    private static final  String keyString="1234567890123456";
     public static void main( String[] args ) throws Exception
     {
         HelloService service = (HelloService) Naming.lookup("rmi://localhost:5099/hello");
@@ -24,17 +26,22 @@ public class Client
         System.out.println(" ---" + service.readConfig("param"));
         System.out.println(" ---" + service.setConfig("param", "Value"));
 
-
-        PasswordStorage passManager = new PasswordStorage();
         String userName = "Mike";
         String password = "ThisTheFirstPassword";
 
+        // PasswordStorage passManager = new PasswordStorage();
         // passManager.signUp(userName, password);
-        checkDatabase(userName,password);
+
+        checkDatabase(userName, password);
 
     }
 
-public static boolean checkDatabase(String user,String pwd)throws RemoteException, SQLException{
+    public static boolean checkDatabase(String user,String pwd)throws Exception, RemoteException, SQLException{
+
+        CryptoHelper crypto = new CryptoHelper();
+        SecretKeySpec key= new SecretKeySpec(keyString.getBytes("UTF-8"),"AES");
+        String encriptedUser = crypto.encrypt(user, key);
+        String encriptedPass = crypto.encrypt(pwd, key);
 
     	final String userDB = "dataUser";
     	final String passDB = "password";
@@ -42,8 +49,6 @@ public static boolean checkDatabase(String user,String pwd)throws RemoteExceptio
         Connection c = null;
         Statement s = null;
         ResultSet rs = null;
-
-
         boolean userAuthenticated = false;
 
         try{
@@ -58,13 +63,14 @@ public static boolean checkDatabase(String user,String pwd)throws RemoteExceptio
             // That means the user exists in the Database and gave the correct credentials.
 
             System.out.println("Successfuly connected to the dB");
-            userAuthenticated = db.authenticateUser(user, pwd);
+            userAuthenticated = db.authenticateUser(encriptedUser, encriptedPass);
 
             if(userAuthenticated){
                 System.out.println("Welcome " + user);
             }
             else{
                 System.out.println("Wrong username and/or password!");
+
             }
 
         }

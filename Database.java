@@ -1,6 +1,7 @@
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.crypto.spec.SecretKeySpec;
 
 
 public class Database {
@@ -9,6 +10,7 @@ public class Database {
     ResultSet res;
     PasswordStorage manageEncription = new PasswordStorage();
     // Constructor
+    private static final  String keyString="1234567890123456";
     public Database(Statement stm, ResultSet res){
         this.stm = stm;
         this.res = res;
@@ -36,8 +38,12 @@ public class Database {
 
     }
 
-    public boolean authenticateUser( String username, String password) throws SQLException{
-
+    public boolean authenticateUser( String encriptedUser, String encriptedPass) throws SQLException, Exception{
+        SecretKeySpec key= new SecretKeySpec(keyString.getBytes("UTF-8"),"AES");
+        CryptoHelper crypto = new CryptoHelper();
+        String username = crypto.decrypt(encriptedUser, key);
+        String password = crypto.decrypt(encriptedPass, key);
+        System.out.println(username);
         try{
             res = stm.executeQuery("SELECT * FROM data WHERE username = '" + username + "'");
             while(res.next()){

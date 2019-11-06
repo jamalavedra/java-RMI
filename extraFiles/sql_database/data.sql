@@ -40,9 +40,9 @@ CREATE TABLE IF NOT EXISTS `data` (
 --
 
 INSERT INTO `data` (`Username`, `Password`, `Salt`) VALUES
-('Mike', 'TzBql1WR9wZjN0LoKr2OBk2majc=', '4NWwJULan8U='),
-('John', 'JcQnEVl0af8EwrPkmc6EGG+fLfs=', '2MWwJULan8U='),
-('Alice', 'BaN+yn8W0SYZiUkaOHSZxDKTLMg=', '4NWSJULgn8U='),
-('Bob', 'V1TtSe0GFYuHFJrA1l1lDIwdfKA=', '4NWwJILan9U='),
-('Charlie', 'X40Xv/MntGoeqwif8hhFEOIrK8Q=', '4NWwFULan8X=');
+('Mike', 'TzBql1WR9wZjN0LoKr2OBk2majc=', '4NWwJULan8U='), --- ThisTheFirstPassword
+('John', 'JcQnEVl0af8EwrPkmc6EGG+fLfs=', '2MWwJULan8U='), --- ThisTheSecondPassword
+('Alice', 'BaN+yn8W0SYZiUkaOHSZxDKTLMg=', '4NWSJULgn8U='),--- ThisTheThirdPassword
+('Bob', 'V1TtSe0GFYuHFJrA1l1lDIwdfKA=', '4NWwJILan9U='),  --- ThisTheFourthPassword
+('Charlie', 'X40Xv/MntGoeqwif8hhFEOIrK8Q=', '4NWwFULan8X=');--- ThisTheFifthPassword
 COMMIT;
