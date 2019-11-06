@@ -16,23 +16,23 @@ public class Client
     {
         HelloService service = (HelloService) Naming.lookup("rmi://localhost:5099/hello");
         System.out.println(" ---" + service.echo("Server responding correctly"));
-        System.out.println(" ---" + service.print("filname", "printer"));
-        System.out.println(" ---" + service.queue());
-        System.out.println(" ---" + service.topQueue(2));
-        System.out.println(" ---" + service.start());
-        System.out.println(" ---" + service.stop());
-        System.out.println(" ---" + service.restart());
-        System.out.println(" ---" + service.status());
-        System.out.println(" ---" + service.readConfig("param"));
-        System.out.println(" ---" + service.setConfig("param", "Value"));
 
         String userName = "Mike";
         String password = "ThisTheFirstPassword";
-
         // PasswordStorage passManager = new PasswordStorage();
         // passManager.signUp(userName, password);
-
-        checkDatabase(userName, password);
+        boolean login = checkDatabase(userName, password);
+        if(login){
+            System.out.println(" ---" + service.print("filname", "printer"));
+            System.out.println(" ---" + service.queue());
+            System.out.println(" ---" + service.topQueue(2));
+            System.out.println(" ---" + service.start());
+            System.out.println(" ---" + service.stop());
+            System.out.println(" ---" + service.restart());
+            System.out.println(" ---" + service.status());
+            System.out.println(" ---" + service.readConfig("param"));
+            System.out.println(" ---" + service.setConfig("param", "Value"));
+        }
 
     }
 
@@ -62,7 +62,7 @@ public class Client
             // Checks if the given username and password is correct.
             // That means the user exists in the Database and gave the correct credentials.
 
-            System.out.println("Successfuly connected to the dB");
+            // System.out.println("Successfully connected to the dB");
             userAuthenticated = db.authenticateUser(encriptedUser, encriptedPass);
 
             if(userAuthenticated){

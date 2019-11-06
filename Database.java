@@ -43,7 +43,6 @@ public class Database {
         CryptoHelper crypto = new CryptoHelper();
         String username = crypto.decrypt(encriptedUser, key);
         String password = crypto.decrypt(encriptedPass, key);
-        System.out.println(username);
         try{
             res = stm.executeQuery("SELECT * FROM data WHERE username = '" + username + "'");
             while(res.next()){
@@ -53,7 +52,7 @@ public class Database {
                 // System.out.println(usernameDB + " " + passwordDB + " " + saltDB);
                 String calculatedHash = manageEncription.getEncryptedPassword(password, saltDB);
                 if (calculatedHash.equals(passwordDB)) {
-                	System.out.println("User authenticated");
+                	// System.out.println("User authenticated");
                 	return true;
                 }
             }
