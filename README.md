@@ -8,4 +8,7 @@ To run it:
 
 ## To populate a MySQL dB:
 `sudo mysql -u root -p data_security < data.sql`.
-Beware that the dB expects that admin user is `dataUser` and password: `password`.
+
+###Beware that:
+1. The dB expects that admin user is `dataUser` and password: `password`.
+2. It is expected that the dB is hosted in `localhost` and its called `data_security`.

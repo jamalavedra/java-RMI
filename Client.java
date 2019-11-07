@@ -23,15 +23,17 @@ public class Client
         // passManager.signUp(userName, password);
         boolean login = checkDatabase(userName, password);
         if(login){
-            System.out.println(" ---" + service.print("filname", "printer"));
-            System.out.println(" ---" + service.queue());
-            System.out.println(" ---" + service.topQueue(2));
-            System.out.println(" ---" + service.start());
-            System.out.println(" ---" + service.stop());
-            System.out.println(" ---" + service.restart());
-            System.out.println(" ---" + service.status());
-            System.out.println(" ---" + service.readConfig("param"));
-            System.out.println(" ---" + service.setConfig("param", "Value"));
+            System.out.println("Welcome " + userName);
+            String sessionToken = service.issueToken(userName, password);
+            System.out.println(" ---" + service.print(sessionToken, "filname ", "printer"));
+            System.out.println(" ---" + service.queue(sessionToken));
+            System.out.println(" ---" + service.topQueue(sessionToken, 2));
+            System.out.println(" ---" + service.start(sessionToken));
+            System.out.println(" ---" + service.stop(sessionToken));
+            System.out.println(" ---" + service.restart(sessionToken));
+            System.out.println(" ---" + service.status(sessionToken));
+            System.out.println(" ---" + service.readConfig(sessionToken, "param"));
+            System.out.println(" ---" + service.setConfig(sessionToken, "param", "Value"));
         }
 
     }
@@ -58,19 +60,11 @@ public class Client
 
             Database db = new Database(s, rs);
 
-
-            // Checks if the given username and password is correct.
-            // That means the user exists in the Database and gave the correct credentials.
-
             // System.out.println("Successfully connected to the dB");
             userAuthenticated = db.authenticateUser(encriptedUser, encriptedPass);
 
-            if(userAuthenticated){
-                System.out.println("Welcome " + user);
-            }
-            else{
+            if(!userAuthenticated){
                 System.out.println("Wrong username and/or password!");
-
             }
 
         }

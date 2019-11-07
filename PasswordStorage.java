@@ -42,7 +42,7 @@ public class PasswordStorage {
         saveUser(user);
     }
 
-    // Get a encrypted password using PBKDF2 hash al`gorithm
+    // Get a encrypted password using PBKDF2 hash algorithm
     public String getEncryptedPassword(String password, String salt) throws Exception {
         String algorithm = "PBKDF2WithHmacSHA1";
         int derivedKeyLength = 160; // for SHA1
@@ -57,7 +57,7 @@ public class PasswordStorage {
 
     // Returns base64 encoded salt
     public String getNewSalt() throws Exception {
-        SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
+        SecureRandom random = SecureRandom.getInstance("SHA1");
         byte[] salt = new byte[8];
         random.nextBytes(salt);
         return Base64.getEncoder().encodeToString(salt);
