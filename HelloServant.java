@@ -114,7 +114,8 @@ public class HelloServant extends UnicastRemoteObject implements HelloService {
             token.append(":");
             token.append( password);
             token.append(":");
-            token.append( timestamp.getTime());
+            long current_time = timestamp.getTime();
+            token.append( String.valueOf(current_time));
             return crypto.encrypt(token.toString(), key);
         }
         catch (Exception ex) {
@@ -122,16 +123,32 @@ public class HelloServant extends UnicastRemoteObject implements HelloService {
         }
     return null;
     }
+    private long ConvertIntoNumeric(String xVal)
+    {
+        try
+        {
+            return Long.parseLong(xVal);
+        }
+        catch(NumberFormatException ex)
+        {
+            System.out.println(ex);
+            return 0;
+        }
+    }
     public boolean CheckToken(String encToken) throws Exception, RuntimeException{
         CryptoHelper crypto = new CryptoHelper();
         Client isValid = new Client();
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         SecretKeySpec key= new SecretKeySpec(keyString.getBytes("UTF-8"),"AES");
         try {
             String token = crypto.decrypt(encToken.toString(), key);
             String [] parts = token.split( ":" );
             String user = parts[0];
             String password = parts[1];
-            if(isValid.checkDatabase(user, password)){
+            String time = parts[2];
+            long time_int = ConvertIntoNumeric(time);
+            long diff = timestamp.getTime() - time_int; // 5 min of valid token
+            if(isValid.checkDatabase(user, password)&&(diff<300000)){
                 return true;
             }
             else{
