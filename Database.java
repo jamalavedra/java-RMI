@@ -50,7 +50,7 @@ public class Database {
                 String passwordDB = res.getString("Password");
                 String saltDB = res.getString("Salt");
                 // System.out.println(usernameDB + " " + passwordDB + " " + saltDB);
-                String calculatedHash = manageEncription.getEncryptedPassword(password, saltDB);
+                String calculatedHash = manageEncription.getSecuredPassword(password, saltDB);
                 if (calculatedHash.equals(passwordDB)) {
                 	// System.out.println("User authenticated");
                 	return true;

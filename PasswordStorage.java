@@ -34,7 +34,7 @@ public class PasswordStorage {
     //Method used for Login the user
     public void signUp(String userName, String password) throws Exception {
         String salt = getNewSalt();
-        String encryptedPassword = getEncryptedPassword(password, salt);
+        String encryptedPassword = getSecuredPassword(password, salt);
         UserInfo user = new UserInfo();
         user.userEncryptedPassword = encryptedPassword;
         user.userName = userName;
@@ -43,7 +43,7 @@ public class PasswordStorage {
     }
 
     // Get a encrypted password using PBKDF2 hash algorithm
-    public String getEncryptedPassword(String password, String salt) throws Exception {
+    public String getSecuredPassword(String password, String salt) throws Exception {
         String algorithm = "PBKDF2WithHmacSHA1";
         int derivedKeyLength = 160; // for SHA1
         int iterations = 20000;
