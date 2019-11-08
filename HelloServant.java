@@ -2,7 +2,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import org.apache.commons.codec.binary.Base64;
 import javax.crypto.spec.SecretKeySpec;
-
+import java.sql.Timestamp;
 
 public class HelloServant extends UnicastRemoteObject implements HelloService {
     private static final  String keyString="1122334455667788";
@@ -106,14 +106,16 @@ public class HelloServant extends UnicastRemoteObject implements HelloService {
     }
     public String issueToken(String username, String password) throws Exception, RemoteException{
         CryptoHelper crypto = new CryptoHelper();
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         SecretKeySpec key= new SecretKeySpec(keyString.getBytes("UTF-8"),"AES");
         try {
             StringBuilder token = new StringBuilder();
             token.append(username);
             token.append(":");
             token.append( password);
+            token.append(":");
+            token.append( timestamp.getTime());
             return crypto.encrypt(token.toString(), key);
-            // return token.toString();
         }
         catch (Exception ex) {
              ex.printStackTrace();
