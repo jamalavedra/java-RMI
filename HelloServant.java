@@ -18,7 +18,9 @@ public class HelloServant extends UnicastRemoteObject implements HelloService {
     @Override
 	public String print(String token, String filename, String printer) throws Exception, RemoteException{
     // prints file filename on the specified printer
-        if(CheckToken(token)){
+        String user = CheckToken(token);
+        if(user != "false"){
+            System.out.println(user + "--- print");
             return "print: " + filename + "in " + printer;
         }
         else{
@@ -28,7 +30,9 @@ public class HelloServant extends UnicastRemoteObject implements HelloService {
     @Override
 	public String queue(String token) throws Exception, RemoteException{
     // lists the print queue on the user's display in lines of the form <job number>   <file name>
-        if(CheckToken(token)){
+        String user = CheckToken(token);
+        if(user != "false"){
+            System.out.println(user + "--- queue");
             return "queue";
         }
         else{
@@ -37,8 +41,10 @@ public class HelloServant extends UnicastRemoteObject implements HelloService {
     }
     @Override
 	public String topQueue(String token, int job) throws Exception, RemoteException{
-        if(CheckToken(token)){
-            return "TopQueue: " + job;
+        String user = CheckToken(token);
+        if(user != "false"){
+            System.out.println(user + "--- topQueue");
+            return "topQueue: " + job;
         }
         else{
             return "User not authenticated. Corrupted Token";
@@ -47,7 +53,9 @@ public class HelloServant extends UnicastRemoteObject implements HelloService {
     @Override
 	public String start(String token) throws Exception, RemoteException{
     // starts the print server
-        if(CheckToken(token)){
+        String user = CheckToken(token);
+        if(user != "false"){
+            System.out.println(user + "--- start");
             return "start";
         }
         else{
@@ -57,7 +65,9 @@ public class HelloServant extends UnicastRemoteObject implements HelloService {
     @Override
 	public String stop(String token) throws Exception, RemoteException{
     // stops the print server
-        if(CheckToken(token)){
+        String user = CheckToken(token);
+        if(user != "false"){
+            System.out.println(user + "--- stop");
             return "stop";
         }
         else{
@@ -67,7 +77,9 @@ public class HelloServant extends UnicastRemoteObject implements HelloService {
     @Override
 	public String restart(String token) throws Exception, RemoteException{
     // stops the print server, clears the print queue and starts the print server again
-        if(CheckToken(token)){
+        String user = CheckToken(token);
+        if(user != "false"){
+            System.out.println(user + "--- restart");
             return "restart";
         }
         else{
@@ -77,7 +89,9 @@ public class HelloServant extends UnicastRemoteObject implements HelloService {
     @Override
 	public String status(String token) throws Exception, RemoteException{
     // prints status of printer on the user's display
-        if(CheckToken(token)){
+        String user = CheckToken(token);
+        if(user != "false"){
+            System.out.println(user + "--- status");
             return "status";
         }
         else{
@@ -87,7 +101,9 @@ public class HelloServant extends UnicastRemoteObject implements HelloService {
     @Override
 	public String readConfig(String token, String parameter) throws Exception, RemoteException{
     // prints the value of the parameter on the user's display
-        if(CheckToken(token)){
+        String user = CheckToken(token);
+        if(user != "false"){
+            System.out.println(user + "--- readConfig");
             return "readConfig: " + parameter;
         }
         else{
@@ -97,7 +113,9 @@ public class HelloServant extends UnicastRemoteObject implements HelloService {
     @Override
 	public String setConfig(String token, String parameter, String value) throws Exception, RemoteException{
     // sets the parameter to value
-        if(CheckToken(token)){
+        String user = CheckToken(token);
+        if(user != "false"){
+            System.out.println(user + "--- setConfig");
             return "setConfig: " + parameter + " to " + value;
         }
         else{
@@ -135,7 +153,7 @@ public class HelloServant extends UnicastRemoteObject implements HelloService {
             return 0;
         }
     }
-    public boolean CheckToken(String encToken) throws Exception, RuntimeException{
+    public String CheckToken(String encToken) throws Exception, RuntimeException{
         CryptoHelper crypto = new CryptoHelper();
         Client isValid = new Client();
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -149,16 +167,16 @@ public class HelloServant extends UnicastRemoteObject implements HelloService {
             long time_int = ConvertIntoNumeric(time);
             long diff = timestamp.getTime() - time_int; // 5 min of valid token
             if(isValid.checkDatabase(user, password)&&(diff<300000)){
-                return true;
+                return user;
             }
             else{
-                return false;
+                return "false";
             }
 
         }
         catch (Exception ex) {
              ex.printStackTrace();
         }
-    return false;
+    return "false";
     }
 }
