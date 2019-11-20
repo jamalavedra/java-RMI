@@ -30,20 +30,26 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 -- Dumping data for table `data`
 --
+-- ThisTheFirstPassword
+-- ThisTheSecondPassword
+-- ThisTheThirdPassword
+-- ThisTheFourthPassword
+-- ThisTheFifthPassword
+
 
 INSERT INTO `data` (`Username`, `Password`, `Salt`) VALUES
-('Mike', 'TzBql1WR9wZjN0LoKr2OBk2majc=', '4NWwJULan8U='), --- ThisTheFirstPassword
-('John', 'JcQnEVl0af8EwrPkmc6EGG+fLfs=', '2MWwJULan8U='), --- ThisTheSecondPassword
-('Alice', 'BaN+yn8W0SYZiUkaOHSZxDKTLMg=', '4NWSJULgn8U='),--- ThisTheThirdPassword
-('Bob', 'V1TtSe0GFYuHFJrA1l1lDIwdfKA=', '4NWwJILan9U='),  --- ThisTheFourthPassword
-('Charlie', 'X40Xv/MntGoeqwif8hhFEOIrK8Q=', '4NWwFULan8X=');--- ThisTheFifthPassword
+('Cecilia', 'TzBql1WR9wZjN0LoKr2OBk2majc=', '4NWwJULan8U='),
+('Erika', 'JcQnEVl0af8EwrPkmc6EGG+fLfs=', '2MWwJULan8U='),
+('Alice', 'BaN+yn8W0SYZiUkaOHSZxDKTLMg=', '4NWSJULgn8U='),
+('Bob', 'V1TtSe0GFYuHFJrA1l1lDIwdfKA=', '4NWwJILan9U='),
+('David', 'X40Xv/MntGoeqwif8hhFEOIrK8Q=', '4NWwFULan8X=');
 COMMIT;
 
 
 INSERT INTO `users` (`Username`, `print`, `queue`, `topQueue`, `start`, `stop`, `restart`, `status`, `readConfig`, `setConfig`) VALUES
-('Cecilia', true, true, true, false, false, true, false, false, false);
-('Erika', true, false, false, false, false, false, false, false, false);
-('Alice', true, true, true, true, true, true, true, true, true);
+('Cecilia', true, true, true, false, false, true, false, false, false),
+('Erika', true, false, false, false, false, false, false, false, false),
+('Alice', true, true, true, true, true, true, true, true, true),
 ('Bob', false, false, false, true, true, true, true, true, true),
-('David', true, false, false, false, false, flase, false, false, false);
+('David', true, false, false, false, false, false, false, false, false);
 COMMIT;

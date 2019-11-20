@@ -67,5 +67,26 @@ public class Database {
         return false;
 
     }
+    public boolean authoriseUser( String user, String method) throws SQLException, Exception{
+        try{
+            res = stm.executeQuery("SELECT * FROM users WHERE username = '" + user + "'");
+            while(res.next()){
+                Boolean authorization = res.getBoolean(method);
+                if (authorization) {
+                    // System.out.println("User authenticated");
+                    return true;
+                }
+            }
+
+        }
+        catch(Exception e){
+            System.out.println(e);
+
+        }
+
+
+        return false;
+
+    }
 
 }
