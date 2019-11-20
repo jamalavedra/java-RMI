@@ -31,17 +31,6 @@ public class PasswordStorage {
         return c;
     }
 
-    //Method used for Login the user
-    public void signUp(String userName, String password) throws Exception {
-        String salt = getNewSalt();
-        String encryptedPassword = getSecuredPassword(password, salt);
-        UserInfo user = new UserInfo();
-        user.userEncryptedPassword = encryptedPassword;
-        user.userName = userName;
-        user.userSalt = salt;
-        saveUser(user);
-    }
-
     // Get a encrypted password using PBKDF2 hash algorithm
     public String getSecuredPassword(String password, String salt) throws Exception {
         String algorithm = "PBKDF2WithHmacSHA1";
@@ -54,27 +43,4 @@ public class PasswordStorage {
         byte[] encBytes = f.generateSecret(spec).getEncoded();
         return Base64.getEncoder().encodeToString(encBytes);
     }
-
-    // Returns base64 encoded salt
-    public String getNewSalt() throws Exception {
-        SecureRandom random = SecureRandom.getInstance("SHA1");
-        byte[] salt = new byte[8];
-        random.nextBytes(salt);
-        return Base64.getEncoder().encodeToString(salt);
-    }
-
-    //save user in Database
-    private void saveUser(UserInfo user) throws SQLException {
-    	String sql = "INSERT INTO data(Username, Password,Salt) VALUES(?,?,?)";
-
-        try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, user.userName);
-            pstmt.setString(2, user.userEncryptedPassword);
-            pstmt.setString(3, user.userSalt);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
 }

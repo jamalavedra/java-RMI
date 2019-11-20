@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 --
 -- Dumping data for table `data`
---
+-- The Passwords of the users, by order, are:
 -- ThisTheFirstPassword
 -- ThisTheSecondPassword
 -- ThisTheThirdPassword
@@ -39,10 +39,10 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 INSERT INTO `data` (`Username`, `Password`, `Salt`) VALUES
 ('Cecilia', 'TzBql1WR9wZjN0LoKr2OBk2majc=', '4NWwJULan8U='),
-('Erika', 'JcQnEVl0af8EwrPkmc6EGG+fLfs=', '2MWwJULan8U='),
-('Alice', 'BaN+yn8W0SYZiUkaOHSZxDKTLMg=', '4NWSJULgn8U='),
-('Bob', 'V1TtSe0GFYuHFJrA1l1lDIwdfKA=', '4NWwJILan9U='),
-('David', 'X40Xv/MntGoeqwif8hhFEOIrK8Q=', '4NWwFULan8X=');
+('Erika', 'iubXIju+Hd+EOgIuivTx3RbRDoU=', '2MWwJULan8U='),
+('Alice', 'mWrE8czs6KkOeP1WiMyn0NEnKGw=', '4NWSJULgn8U='),
+('Bob', 'YNvbZBcchzXYRyRJBx5WkPmwxfo=', '4NWwJILan9U='),
+('David', 'OPhte5nto3U+rJucbb3GUTGCSiI=', '4NWwFULan8X=');
 COMMIT;
 
 

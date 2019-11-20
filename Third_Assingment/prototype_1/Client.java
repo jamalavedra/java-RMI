@@ -24,8 +24,6 @@ public class Client
         System.out.println("Input your password:");
         String password=scan.next();
 
-        // PasswordStorage passManager = new PasswordStorage();
-        // passManager.signUp(userName, password);
         boolean login = checkDatabase(userName, password, "false");
         if(login){
             System.out.println("Welcome " + userName);

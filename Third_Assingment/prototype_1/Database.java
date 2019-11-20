@@ -49,10 +49,8 @@ public class Database {
                 String usernameDB = res.getString("Username");
                 String passwordDB = res.getString("Password");
                 String saltDB = res.getString("Salt");
-                // System.out.println(usernameDB + " " + passwordDB + " " + saltDB);
                 String calculatedHash = manageEncription.getSecuredPassword(password, saltDB);
                 if (calculatedHash.equals(passwordDB)) {
-                	// System.out.println("User authenticated");
                 	return true;
                 }
             }
@@ -73,7 +71,6 @@ public class Database {
             while(res.next()){
                 Boolean authorization = res.getBoolean(method);
                 if (authorization) {
-                    // System.out.println("User authenticated");
                     return true;
                 }
             }
