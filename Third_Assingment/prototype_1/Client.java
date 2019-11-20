@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.crypto.spec.SecretKeySpec;
+import java.util.*;
 
 
 
@@ -17,23 +18,75 @@ public class Client
         HelloService service = (HelloService) Naming.lookup("rmi://localhost:5099/hello");
         System.out.println(" ---" + service.echo("Server responding correctly"));
 
-        String userName = "Mike";
-        String password = "ThisTheFirstPassword";
+        Scanner scan = new Scanner(System.in);
+        System.out.println(" Input your user name:");
+        String userName = scan.next();
+        System.out.println(" Input your password:");
+        String password=scan.next();
+
         // PasswordStorage passManager = new PasswordStorage();
         // passManager.signUp(userName, password);
         boolean login = checkDatabase(userName, password);
         if(login){
             System.out.println("Welcome " + userName);
             String sessionToken = service.issueToken(userName, password);
-            System.out.println(" ---" + service.print(sessionToken, "filname ", "printer"));
-            System.out.println(" ---" + service.queue(sessionToken));
-            System.out.println(" ---" + service.topQueue(sessionToken, 2));
-            System.out.println(" ---" + service.start(sessionToken));
-            System.out.println(" ---" + service.stop(sessionToken));
-            System.out.println(" ---" + service.restart(sessionToken));
-            System.out.println(" ---" + service.status(sessionToken));
-            System.out.println(" ---" + service.readConfig(sessionToken, "param"));
-            System.out.println(" ---" + service.setConfig(sessionToken, "param", "Value"));
+            while(true) {
+                System.out.println("Input what function you want to call:");
+                String method = scan.next();
+                switch (method){
+                    case "print":
+                        System.out.println("Input filename:");
+                        String filename = scan.next();
+                        System.out.println("Input printer:");
+                        String printer_print = scan.next();
+                        service.print(sessionToken, filename, printer_print);
+                        System.out.println("--print: " + filename + " " + printer_print);
+                        break;
+                    case "queue":
+                        System.out.println("Input a printer name:");
+                        String printer_queue = scan.next();
+                        service.queue(sessionToken, printer_queue);
+                        System.out.println("--queue: ");
+                        break;
+                    case "topQueue":
+                        System.out.println("Input the job number:");
+                        int job = scan.nextInt();
+                        service.topQueue(sessionToken, job);
+                        System.out.println("--topQueue: " + job);
+                        break;
+                    case "start":
+                        service.start(sessionToken);
+                        break;
+                    case "stop":
+                        service.stop(sessionToken);
+                        break;
+                    case "restart":
+                        service.restart(sessionToken);
+                        break;
+                    case "status":
+                        System.out.println("Input printer name:");
+                        String printer_status = scan.next();
+                        service.status(sessionToken, printer_status);
+                        System.out.println("--status: ");
+                        break;
+                    case "readConfig":
+                        System.out.println("Input parameter:");
+                        String parameter_readConfig = scan.next();
+                        service.readConfig(sessionToken, parameter_readConfig);
+                        System.out.println("--readConfig: " + parameter_readConfig);
+                        break;
+                    case "setConfig":
+                        System.out.println("Input parameter:");
+                        String parameter_setConfig = scan.next();
+                        System.out.println("Input value:");
+                        String value = scan.next();
+                        service.setConfig(sessionToken, parameter_setConfig, value);
+                        System.out.println("--setConfig: " + parameter_setConfig  + " " + value);
+                        break;
+                    default:
+                        System.out.println("function name not recognized, please try again");
+                }
+            }
         }
 
     }

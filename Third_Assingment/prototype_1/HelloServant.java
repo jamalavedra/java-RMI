@@ -28,12 +28,12 @@ public class HelloServant extends UnicastRemoteObject implements HelloService {
         }
     }
     @Override
-	public String queue(String token) throws Exception, RemoteException{
+	public String queue(String token, String printer) throws Exception, RemoteException{
     // lists the print queue on the user's display in lines of the form <job number>   <file name>
         String user = CheckToken(token);
         if(user != "false"){
             System.out.println(user + "--- queue");
-            return "queue";
+            return "queue: " + printer;
         }
         else{
             return "User not authenticated. Corrupted Token";
@@ -87,12 +87,12 @@ public class HelloServant extends UnicastRemoteObject implements HelloService {
         }
     }
     @Override
-	public String status(String token) throws Exception, RemoteException{
+	public String status(String token, String printer) throws Exception, RemoteException{
     // prints status of printer on the user's display
         String user = CheckToken(token);
         if(user != "false"){
             System.out.println(user + "--- status");
-            return "status";
+            return "status: " + printer;
         }
         else{
             return "User not authenticated. Corrupted Token";
