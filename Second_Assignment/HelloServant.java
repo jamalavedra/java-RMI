@@ -33,7 +33,7 @@ public class HelloServant extends UnicastRemoteObject implements HelloService {
         String user = CheckToken(token);
         if(user != "false"){
             System.out.println(user + "--- queue");
-            return "queue";
+            return "queue" ;
         }
         else{
             return "User not authenticated. Corrupted Token";
