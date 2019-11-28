@@ -9,8 +9,6 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
 
-import java.util.Arrays;
-
 public class CryptoHelper {
 
     public String encrypt( String plaintext, SecretKeySpec key) throws Exception {
