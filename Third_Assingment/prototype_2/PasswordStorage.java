@@ -19,12 +19,12 @@ public class PasswordStorage {
     ResultSet res;
 
     private Connection connect() {
-    	final String userDB = "dataUser";
-    	final String passDB = "password";
-    	final String conn = "jdbc:mysql://localhost:3306/data_security?useSSL=false";
+    	final String userDB = "root";
+    	final String passDB = "hello";
+    	final String connection = "jdbc:mysql://192.168.99.100:3306/DB?useSSL=false";
         Connection c = null;
         try {
-        	c = DriverManager.getConnection(conn, userDB, passDB);
+        	c = DriverManager.getConnection(connection, userDB, passDB);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -76,5 +76,6 @@ public class PasswordStorage {
             System.out.println(e.getMessage());
         }
     }
+    
 
 }
