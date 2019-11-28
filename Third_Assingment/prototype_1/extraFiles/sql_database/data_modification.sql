@@ -8,22 +8,27 @@ SET time_zone = "+00:00";
 
 -- Update David's permissions
 UPDATE `users`
-SET  print = true, queue = true, topQueue = true, start = false, stop = false, restart = true, status = false, readConfig = false, setConfig = false
-WHERE Username = 'David';
+SET  print = false, queue = false, topQueue = false, start = true, stop = true, restart = true, status = true, readConfig = true, setConfig = true
+WHERE Username = 'George';
 
 -- Delete Cecilia from authenticating
 DELETE FROM `users`
-WHERE Username = 'Cecilia';
+WHERE Username = 'Bob';
 
 -- Delete Cecilia from being authorized
 DELETE FROM `data`
-WHERE Username = 'Cecilia';
+WHERE Username = 'Bob';
 
 -- Insert a new user  to the authorization
 INSERT INTO `users` (`Username`, `print`, `queue`, `topQueue`, `start`, `stop`, `restart`, `status`, `readConfig`, `setConfig`) VALUES
-('Andrei', true, false, false, false, false, false, false, false, false);
+('Henry', true, true, false, false, false, false, false, false, false),
+('Ida', true, true, true, false, false, true, false, false, false);
+
+-- ThisTheNinethPassword
+-- ThisTheThenthPassword
 
 -- Insert new user to authentication
 INSERT INTO `data`(`Username`, `Password`, `Salt`) VALUES
-('Andrei', 'TzBql1WR9wZjN0LoKr2OBk2majc=', '4NWwJULan8U=');
+('Henry', 'Mpih7GRat97smL6ib/nD3976G7E=', '4NWwJULan8U='),
+('Ida', 'CZSTg0JsZrHKN7WZJfqB01M5Dxc=', '7SWwJULnn2Q=');
 COMMIT;

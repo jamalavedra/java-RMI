@@ -35,21 +35,28 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- ThisTheThirdPassword
 -- ThisTheFourthPassword
 -- ThisTheFifthPassword
+-- ThisTheSixthPassword
+-- ThisTheSeventhPassword
+
 
 
 INSERT INTO `data` (`Username`, `Password`, `Salt`) VALUES
 ('Cecilia', 'TzBql1WR9wZjN0LoKr2OBk2majc=', '4NWwJULan8U='),
-('Erika', 'iubXIju+Hd+EOgIuivTx3RbRDoU=', '2MWwJULan8U='),
+('Erica', 'iubXIju+Hd+EOgIuivTx3RbRDoU=', '2MWwJULan8U='),
 ('Alice', 'mWrE8czs6KkOeP1WiMyn0NEnKGw=', '4NWSJULgn8U='),
 ('Bob', 'YNvbZBcchzXYRyRJBx5WkPmwxfo=', '4NWwJILan9U='),
-('David', 'OPhte5nto3U+rJucbb3GUTGCSiI=', '4NWwFULan8X=');
+('David', 'OPhte5nto3U+rJucbb3GUTGCSiI=', '4NWwFULan8X='),
+('George', '1W6D8sE/yvTZdPBUPC87KSPZL7c=', '6JAwJILan9U='),
+('Fred', 'Cwvbnz2I2rh0ZCME0hMBY3S1PXE=', '8NAwFMLbn5X=');
 COMMIT;
 
 
 INSERT INTO `users` (`Username`, `print`, `queue`, `topQueue`, `start`, `stop`, `restart`, `status`, `readConfig`, `setConfig`) VALUES
 ('Cecilia', true, true, true, false, false, true, false, false, false),
-('Erika', true, false, false, false, false, false, false, false, false),
+('Erica', true, true, false, false, false, false, false, false, false),
 ('Alice', true, true, true, true, true, true, true, true, true),
 ('Bob', false, false, false, true, true, true, true, true, true),
-('David', true, false, false, false, false, false, false, false, false);
+('George', true, true, false, false, false, false, false, false, false),
+('Fred', true, true, false, false, false, false, false, false, false),
+('David', true, true, false, false, false, false, false, false, false);
 COMMIT;
