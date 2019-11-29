@@ -4,29 +4,17 @@ START TRANSACTION;
 SET time_zone = "+00:00";
 SET SQL_SAFE_UPDATES = 0;
 
--- The authnetication password for the new user Mike is:
--- Mike = ThisTheFirstPassword
-
--- Update Role permission for a function
-UPDATE `DB`.`Permissions`
-SET `Permission` = '2'
-WHERE (`Function` = 'print');
-
--- Delete Role permission for a function
-DELETE FROM `DB`.`Permissions`
-WHERE (`Function` = 'createUser ')
-AND (`Permission` = '2');
-
--- Insert Role Permission for a function
-INSERT INTO `DB`.`Permissions` (`id_p`, `Function`, `Permission`) VALUES ('12', 'newPrintJob', '2');
-
--- Delete Cecilia from authenticating
-DELETE FROM `DB`.`data` WHERE (`Username` = 'Cecilia ');
+-- Delete Bob from authenticating
+DELETE FROM `DB`.`data` WHERE (`Username` = 'Bob ');
 
 -- Update Cecilia's role
-UPDATE `DB`.`data` SET `Role` = '3' WHERE (`Username` = 'Cecilia ');
+UPDATE `DB`.`data` SET `Role` = '4' WHERE (`Username` = 'George ');
+
+-- ThisTheNinethPassword
+-- ThisTheThenthPassword
 
 -- Insert new user to authentication
 INSERT INTO `data`(`Username`, `Password`, `Salt`,`Role`) VALUES
-('Andrei', 'TzBql1WR9wZjN0LoKr2OBk2majc=', '4NWwJULan8U=','1');
+('Henry', 'Mpih7GRat97smL6ib/nD3976G7E=', '4NWwJULan8U=','3'),
+('Ida', 'CZSTg0JsZrHKN7WZJfqB01M5Dxc=', '7SWwJULnn2Q=','2');
 COMMIT;
